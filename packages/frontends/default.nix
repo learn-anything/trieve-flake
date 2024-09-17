@@ -5,18 +5,17 @@
   yarnConfigHook,
   nodejs,
   lib,
-  envsubst,
   buildFrontends ? [
     "analytics"
     "chat"
     "dashboard"
     "search"
   ],
-  env ? { },
 }:
 stdenv.mkDerivation rec {
   pname = "trieve-frontends";
   version = "0.11.8";
+
   src = fetchFromGitHub {
     owner = "devflowinc";
     repo = "trieve";
@@ -27,7 +26,7 @@ stdenv.mkDerivation rec {
     yarnLock = "${src}/yarn.lock";
     hash = "sha256-ZD5uCXrPblWrbUShllCA9wt2GTLQxGHdKeBLGVrM+lo=";
   };
-  
+
   buildPhase =
     ''
       runHook preBuild
@@ -51,7 +50,6 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     yarnConfigHook
     nodejs
-    envsubst
   ];
 
   installPhase = ''
@@ -64,16 +62,10 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  inherit env;
-
   fixupPhase = ''
     runHook preFixup
     cd "$out/share/trieve/"
-    for member in *; do 
-      mv "$member/index.html" index.html.template
-      envsubst -no-digit -no-unset -i index.html.template -o "$member/index.html"
-      rm index.html.template
-    done
+    sed -i -E -e 's/\$\{([A-Z0-9_]+)\}/{{ env "\1" }}/g' */index.html
     runHook postFixup
   '';
 }
