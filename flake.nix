@@ -27,6 +27,20 @@
         { pkgs, ... }:
         {
           packages.server = pkgs.callPackage ./packages/server { };
+          packages.frontends = pkgs.callPackage ./packages/frontends {
+            env = {
+              VITE_SENTRY_ANALYTICS_DSN = "";
+              VITE_SENTRY_CHAT_DSN = "";
+              VITE_SENTRY_DASHBOARD_DSN = "";
+              VITE_SENTRY_SEARCH_DSN = "";
+              VITE_API_HOST = "";
+              VITE_DASHBOARD_URL = "";
+              VITE_SEARCH_UI_URL = "";
+              VITE_CHAT_UI_URL = "";
+              VITE_ANALYTICS_UI_URL = "";
+              VITE_BM25_ACTIVE = "";
+            };
+          };
         };
     };
 }
