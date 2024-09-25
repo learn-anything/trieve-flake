@@ -10,15 +10,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1720994547,
-        "narHash": "sha256-5WmTdtALYr8zSTBEeyKWos08pqNwRJ2SiT/vAnw19TU=",
-        "owner": "ehllie",
+        "lastModified": 1726807516,
+        "narHash": "sha256-z9IfbGyKfrinOwDMEf4tffC2rLPNuzQZzB8WQ6o5Z9o=",
+        "owner": "thecaralice",
         "repo": "ez-configs",
-        "rev": "563000e533a1b1aa957a4b788bf505cd243e5154",
+        "rev": "8c126947b802b3cb9450e80d75f30f6064b63cbe",
         "type": "github"
       },
       "original": {
-        "owner": "ehllie",
+        "owner": "thecaralice",
+        "ref": "early-args",
         "repo": "ez-configs",
         "type": "github"
       }
