@@ -1,0 +1,25 @@
+name: "Push to cachix"
+on:
+  pull_request:
+  push:
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: macos-14
+            double: aarch64-darwin
+          - os: macos-13
+            double: x86_64-darwin
+          - os: ubuntu-24.04
+            double: x86_64-linux
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: cachix/install-nix-action@v29
+    - uses: cachix/cachix-action@v15
+      with:
+        name: trieve
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+    - run: |
+        nix build .#packages.${{ matrix.double }}.server .#packages.${{ matrix.double }}.frontends
