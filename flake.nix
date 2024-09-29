@@ -10,6 +10,7 @@
       flake-parts.follows = "flake-parts";
       nixpkgs.follows = "nixpkgs";
     };
+    crane.url = "github:ipetkov/crane";
   };
   outputs =
     inputs@{
@@ -17,6 +18,7 @@
       nixpkgs,
       flake-parts,
       ez-configs,
+      crane,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -27,14 +29,18 @@
       ezConfigs.root = ./.;
       ezConfigs.earlyModuleArgs = {
         inherit self;
+        inherit nixpkgs;
       };
 
       flake.lib = import ./lib { inherit nixpkgs; };
 
       perSystem =
         { pkgs, ... }:
+        let
+          craneLib = crane.mkLib pkgs;
+        in
         {
-          packages.server = pkgs.callPackage ./packages/server { };
+          packages.server = pkgs.callPackage ./packages/server { inherit craneLib; };
           packages.frontends = pkgs.callPackage ./packages/frontends { };
         };
     };

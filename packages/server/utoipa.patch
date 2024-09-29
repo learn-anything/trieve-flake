@@ -1,0 +1,6 @@
+--- a/build.rs
++++ b/build.rs
+@@ -167,2 +167,2 @@
+         println!("start copy to : {:?}", zip_path);
+-        fs::copy(file_path, zip_path.clone()).unwrap();
++        fs::copy(file_path, zip_path.clone()).inspect_err(|e| eprintln!("unable to copy: {e}")).ok();
