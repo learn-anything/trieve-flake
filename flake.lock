@@ -46,11 +46,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1727734818,
-        "narHash": "sha256-vcPimx4e9EEaVm7UDWbDGf9MenyNGWWan8wcBD4T9zQ=",
+        "lastModified": 1727924242,
+        "narHash": "sha256-ki745jzs+2N69oDq4bMOyXom92zPt9CoqyzHE1utUFw=",
         "owner": "thecaralice",
         "repo": "flake-gha",
-        "rev": "6480eb6807868ec655e5bba8e0159d7844831cbb",
+        "rev": "669b2d708b9f3a7b73d7eb1c550729e66d736024",
         "type": "github"
       },
       "original": {

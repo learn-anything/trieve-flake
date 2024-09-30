@@ -39,7 +39,12 @@
       flake.lib = import ./lib { inherit nixpkgs; };
 
       perSystem =
-        { pkgs, ... }:
+        {
+          pkgs,
+          lib,
+          self',
+          ...
+        }:
         let
           craneLib = crane.mkLib pkgs;
         in
@@ -50,6 +55,7 @@
       githubActions = {
         cachix.enable = true;
         cachix.cacheName = "trieve";
+        cachix.pushFilter = "trieve-deps";
         checkAllSystems = false;
       };
     };
