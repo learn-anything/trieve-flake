@@ -11,6 +11,8 @@
       nixpkgs.follows = "nixpkgs";
     };
     crane.url = "github:ipetkov/crane";
+    flake-gha.url = "github:thecaralice/flake-gha";
+    flake-gha.inputs.flake-parts.follows = "flake-parts";
   };
   outputs =
     inputs@{
@@ -19,12 +21,14 @@
       flake-parts,
       ez-configs,
       crane,
+      flake-gha,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = nixpkgs.lib.platforms.all;
       imports = [
         ez-configs.flakeModule
+        flake-gha.flakeModule
       ];
       ezConfigs.root = ./.;
       ezConfigs.earlyModuleArgs = {
@@ -43,6 +47,11 @@
           packages.server = pkgs.callPackage ./packages/server { inherit craneLib; };
           packages.frontends = pkgs.callPackage ./packages/frontends { };
         };
+      githubActions = {
+        cachix.enable = true;
+        cachix.cacheName = "trieve";
+        checkAllSystems = false;
+      };
     };
   nixConfig = {
     substituters = [ "https://trieve.cachix.org" ];

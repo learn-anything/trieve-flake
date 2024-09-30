@@ -39,6 +39,26 @@
         "type": "github"
       }
     },
+    "flake-gha": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ]
+      },
+      "locked": {
+        "lastModified": 1727734818,
+        "narHash": "sha256-vcPimx4e9EEaVm7UDWbDGf9MenyNGWWan8wcBD4T9zQ=",
+        "owner": "thecaralice",
+        "repo": "flake-gha",
+        "rev": "6480eb6807868ec655e5bba8e0159d7844831cbb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "thecaralice",
+        "repo": "flake-gha",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -79,6 +99,7 @@
       "inputs": {
         "crane": "crane",
         "ez-configs": "ez-configs",
+        "flake-gha": "flake-gha",
         "flake-parts": "flake-parts",
         "nixpkgs": "nixpkgs"
       }
