@@ -12,16 +12,14 @@
     "search"
   ],
 }:
+let
+  common = import ../common.nix;
+in
 stdenv.mkDerivation rec {
   pname = "trieve-frontends";
-  version = "0.11.8";
+  inherit (common) version;
 
-  src = fetchFromGitHub {
-    owner = "devflowinc";
-    repo = "trieve";
-    rev = "v${version}";
-    hash = "sha256-4osska+/OTRPQyUxnBDb9m5+urbZSFwqV0HvIGIQPwM=";
-  };
+  src = fetchFromGitHub common.src;
   yarnOfflineCache = fetchYarnDeps {
     yarnLock = "${src}/yarn.lock";
     hash = "sha256-ZD5uCXrPblWrbUShllCA9wt2GTLQxGHdKeBLGVrM+lo=";

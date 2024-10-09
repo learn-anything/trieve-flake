@@ -12,6 +12,7 @@
   defaultReleaseProfile ? false,
 }:
 let
+  common = import ../common.nix;
   swagger-ui = fetchurl rec {
     pname = "swagger-ui";
     version = "5.17.12";
@@ -20,13 +21,8 @@ let
   };
   commonArgs = rec {
     pname = "trieve";
-    version = "0.11.8";
-    src = fetchFromGitHub {
-      owner = "devflowinc";
-      repo = "trieve";
-      rev = "v${version}";
-      hash = "sha256-4osska+/OTRPQyUxnBDb9m5+urbZSFwqV0HvIGIQPwM=";
-    };
+    inherit (common) version;
+    src = fetchFromGitHub common.src;
     sourceRoot = "${src.name}/server";
     strictDeps = true;
     env.SWAGGER_UI_DOWNLOAD_URL = "file://${swagger-ui}";
