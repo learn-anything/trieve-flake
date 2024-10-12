@@ -202,7 +202,7 @@ in
           SupplementaryGroups = [ redis-cfg.user ];
         };
         environment = {
-          DATABASE_URL = "postgresql:///trieve?user=trieve&host=/run/postgresql/.s.PGSQL.${toString config.services.postgresql.settings.port}";
+          DATABASE_URL = "postgresql:///trieve?user=trieve&host=/run/postgresql/&port=${toString config.services.postgresql.settings.port}";
           REDIS_URL = "redis+unix://${redis-cfg.unixSocket}";
           QDRANT_URL =
             let
