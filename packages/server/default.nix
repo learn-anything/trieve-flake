@@ -55,7 +55,7 @@ let
       rm migrations/.gitkeep
     '';
     inherit cargoArtifacts;
-    patches = lib.optional defaultReleaseProfile ./release.patch;
+    patches = [ ./session_state.patch ] ++ lib.optional defaultReleaseProfile ./release.patch;
   };
 in
 craneLib.buildPackage (

@@ -1,0 +1,9 @@
+--- a/src/handlers/auth_handler.rs
++++ b/src/handlers/auth_handler.rs
+@@ -34,5 +34,4 @@
+ #[derive(Deserialize, Debug)]
+ pub struct OpCallback {
+     pub state: String,
+-    pub session_state: String,
+     pub code: String,
+ }
