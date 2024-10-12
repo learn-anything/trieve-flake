@@ -43,6 +43,20 @@ in
           );
           default = { };
         };
+        oidc = {
+          id = lib.mkOption {
+            type = types.str;
+            default = "trieve";
+          };
+          issuer = lib.mkOption {
+            type = types.str;
+            example = "https://auth.yourdomain.com/realms/trieve";
+          };
+          auth-redirect = lib.mkOption {
+            type = types.str;
+            example = "https://auth.yourdomain.com/realms/trieve/protocol/openid-connect/auth";
+          };
+        };
         port = lib.mkOption {
           type = types.port;
           readOnly = true;
@@ -101,7 +115,6 @@ in
           chat = mkDomainOption "chat";
           search = mkDomainOption "search";
           api = mkDomainOption "api";
-          auth = mkDomainOption "auth";
           analytics = mkDomainOption "analytics";
         };
     };
@@ -121,9 +134,6 @@ in
       {
         ${cfg.domain.api}.extraConfig = ''
           reverse_proxy localhost:${toString cfg.server.port}
-        '';
-        ${cfg.domain.auth}.extraConfig = ''
-          reverse_proxy localhost:${toString config.services.keycloak.settings.http-port}
         '';
       }
       // lib.listToAttrs (
@@ -158,11 +168,6 @@ in
     services.minio = {
       enable = true;
     };
-    services.keycloak = {
-      enable = true;
-      settings.hostname = cfg.domain.auth;
-      settings.proxy = "edge";
-    };
     services.clickhouse.enable = true;
     services.clickhouse.users.users.trieve = {
       networks.ip = [
@@ -187,7 +192,6 @@ in
           "qdrant.service"
           "minio.service"
           "tika.service"
-          "keycloak.service"
         ];
       in
       {
@@ -219,8 +223,9 @@ in
               inherit (config.services) minio;
             in
             "http://${minio.listenAddress}";
-          OIDC_AUTH_REDIRECT_URL = "https://${cfg.domain.auth}/realms/trieve/protocol/openid-connect/auth";
-          OIDC_ISSUER_URL = "https://${cfg.domain.auth}/realms/trieve";
+          OIDC_CLIENT_ID = cfg.server.oidc.id;
+          OIDC_ISSUER_URL = cfg.server.oidc.issuer;
+          OIDC_AUTH_REDIRECT_URL = cfg.server.oidc.auth-redirect;
           BASE_SERVER_URL = "https://${cfg.domain.api}";
           REDIS_CONNECTIONS = toString cfg.server.redis-connections;
           UNLIMITED = lib.boolToString cfg.server.unlimited;
