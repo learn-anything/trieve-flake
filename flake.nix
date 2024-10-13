@@ -41,7 +41,6 @@
       perSystem =
         {
           pkgs,
-          lib,
           self',
           ...
         }:
@@ -49,6 +48,8 @@
           craneLib = crane.mkLib pkgs;
         in
         {
+          packages.default = self'.packages.cli;
+          packages.cli = pkgs.callPackage ./packages/cli.nix { inherit craneLib; };
           packages.server = pkgs.callPackage ./packages/server { inherit craneLib; };
           packages.frontends = pkgs.callPackage ./packages/frontends { };
         };
