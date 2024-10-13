@@ -6,7 +6,6 @@
   nodejs,
   lib,
   buildFrontends ? [
-    "analytics"
     "chat"
     "dashboard"
     "search"
@@ -22,7 +21,7 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub common.src;
   yarnOfflineCache = fetchYarnDeps {
     yarnLock = "${src}/yarn.lock";
-    hash = "sha256-ZD5uCXrPblWrbUShllCA9wt2GTLQxGHdKeBLGVrM+lo=";
+    hash = "sha256-nM45e89f2fvwXRcMIGwhnSvJAfrOpa9I4qFQHIfvByk=";
   };
 
   buildPhase =

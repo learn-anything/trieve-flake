@@ -38,7 +38,7 @@ let
     nativeBuildInputs = [ pkg-config ];
     cargoExtraArgs = "--features runtime-env";
     cargoVendorDir = craneLib.vendorCargoDeps {
-      cargoLock = ./Cargo.lock;
+      src = "${src}/server";
       overrideVendorCargoPackage =
         p: drv:
         if p.name == "qdrant-client" && p.version == "1.10.1" then

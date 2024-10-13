@@ -115,7 +115,6 @@ in
           chat = mkDomainOption "chat";
           search = mkDomainOption "search";
           api = mkDomainOption "api";
-          analytics = mkDomainOption "analytics";
         };
     };
   };
@@ -147,7 +146,6 @@ in
           [
             "dashboard"
             "chat"
-            "analytics"
             "search"
           ]
       );
@@ -179,7 +177,6 @@ in
       VITE_API_HOST = "https://${cfg.domain.api}/api";
       VITE_SEARCH_UI_URL = "https://${cfg.domain.search}";
       VITE_CHAT_UI_URL = "https://${cfg.domain.chat}";
-      VITE_ANALYTICS_UI_URL = "https://${cfg.domain.analytics}";
       VITE_DASHBOARD_URL = "https://${cfg.domain.dashboard}";
       VITE_SENTRY_DASHBOARD_DSN = "";
       VITE_BM25_ACTIVE = "true";
