@@ -61,7 +61,7 @@
       };
     };
   nixConfig = {
-    substituters = [ "https://trieve.cachix.org" ];
-    trusted-public-keys = [ "trieve.cachix.org-1:eD5aNrNhvhSS/9jwGEUAuN7W4ifogVSDUk1XdjmrT+I=" ];
+    extra-substituters = [ "https://trieve.cachix.org" ];
+    extra-trusted-public-keys = [ "trieve.cachix.org-1:eD5aNrNhvhSS/9jwGEUAuN7W4ifogVSDUk1XdjmrT+I=" ];
   };
 }
