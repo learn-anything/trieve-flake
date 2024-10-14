@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub common.src;
   yarnOfflineCache = fetchYarnDeps {
     yarnLock = "${src}/yarn.lock";
-    hash = "sha256-nM45e89f2fvwXRcMIGwhnSvJAfrOpa9I4qFQHIfvByk=";
+    hash = "sha256-bZfxMn59tI8XvPsb4iPI13oOmfBuXw1zxjC+6tqSnZo=";
   };
 
   buildPhase =
