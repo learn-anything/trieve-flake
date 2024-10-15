@@ -5,6 +5,8 @@
   stdenv,
   lib,
   libiconv,
+  pkg-config,
+  openssl,
 }:
 let
   commonArgs = rec {
@@ -17,13 +19,16 @@ let
       hash = "sha256-+O4F9vTqYg4Eju0RBIyQ6aIw8Wb33bchSygUpunfFBs=";
     };
     strictDeps = true;
-    buildInputs = lib.optionals stdenv.isDarwin (
-      with darwin.apple_sdk.frameworks;
-      [
-        SystemConfiguration
-        libiconv
-      ]
-    );
+    nativeBuildInputs = lib.optionals stdenv.isLinux [ pkg-config ];
+    buildInputs =
+      lib.optionals stdenv.isDarwin (
+        with darwin.apple_sdk.frameworks;
+        [
+          SystemConfiguration
+          libiconv
+        ]
+      )
+      ++ lib.optionals stdenv.isLinux [ openssl.dev ];
   };
   cargoArtifacts = craneLib.buildDepsOnly commonArgs;
   totalArgs = commonArgs // {
