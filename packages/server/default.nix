@@ -56,9 +56,6 @@ let
     }
   );
   totalArgs = commonArgs // {
-    postPatch = ''
-      rm migrations/.gitkeep
-    '';
     inherit cargoArtifacts;
     patches = [ ./session_state.patch ] ++ lib.optional defaultReleaseProfile ./release.patch;
   };
