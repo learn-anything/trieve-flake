@@ -49,7 +49,12 @@ let
           drv;
     };
   };
-  cargoArtifacts = craneLib.buildDepsOnly commonArgs;
+  cargoArtifacts = craneLib.buildDepsOnly (
+    commonArgs
+    // {
+      cargoLock = "${commonArgs.src}/server/Cargo.lock";
+    }
+  );
   totalArgs = commonArgs // {
     postPatch = ''
       rm migrations/.gitkeep
