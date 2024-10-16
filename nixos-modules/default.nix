@@ -100,6 +100,7 @@ in
           type = types.str;
           default = "INFO";
         };
+        use-analytics = lib.mkEnableOption "analytics";
       };
       domain =
         let
@@ -234,7 +235,8 @@ in
           CLICKHOUSE_USER = "trieve";
           CLICKHOUSE_DB = "trieve";
           CLICKHOUSE_URL = "http://localhost:8123"; # TODO: use port from config
-        };
+          USE_ANALYTICS = lib.boolToString cfg.server.use-analytics;
+        } // cfg.server.environment;
       };
   };
 }
