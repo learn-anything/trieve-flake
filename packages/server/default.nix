@@ -9,6 +9,7 @@
   darwin,
   pkg-config,
   libiconv,
+  fetchpatch2,
   defaultReleaseProfile ? false,
 }:
 let
@@ -57,7 +58,18 @@ let
   );
   totalArgs = commonArgs // {
     inherit cargoArtifacts;
-    patches = [ ./session_state.patch ] ++ lib.optional defaultReleaseProfile ./release.patch;
+    patches = [
+      (fetchpatch2 {
+        url = "https://github.com/devflowinc/trieve/pull/2592.patch";
+        hash = "sha256-NiKXzNBLyFV4V5Tl/4QcXfTq3EzQy8dN/P46lE2TEk0=";
+        relative = "server";
+      })
+      (fetchpatch2 {
+        url = "https://github.com/devflowinc/trieve/pull/2590.patch";
+        hash = "sha256-fRKHMcpRxUBpLsoQUEAxxR5fSFXj3WkOaLIH2vTKszI=";
+        relative = "server";
+      })
+    ] ++ lib.optional defaultReleaseProfile ./release.patch;
   };
 in
 craneLib.buildPackage (
