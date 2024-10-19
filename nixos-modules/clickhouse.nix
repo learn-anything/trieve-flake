@@ -113,30 +113,33 @@ let
           description = "Quota for user.";
         };
         access_management = lib.mkOption {
-          type = types.bool;
-          default = false;
+          type = types.nullOr types.bool;
+          default = null;
           example = true;
           description = "Allow the user to create other users and grant rights to them";
         };
         named_collection_control = lib.mkOption {
-          type = types.bool;
-          default = false;
+          type = types.nullOr types.bool;
+          default = null;
           example = true;
           description = "Allow the user to manipulate named collections";
         };
         allow_databases = lib.mkOption {
-          type = types.listOf types.str;
-          default = [ name ];
+          type = types.nullOr (types.listOf types.str);
+          default = null;
+          example = [ name ];
         };
-        grants = {
-          # TODO
+        grants = lib.mkOption {
+          type = types.nullOr (types.listOf types.str);
+          default = null;
+          description = "List of GRANT queries without a grantee specified to run for this user";
         };
       };
     }
   );
 in
 {
-  disabledModules = ["${nixpkgs}/nixos/modules/services/databases/clickhouse.nix"];
+  disabledModules = [ "${nixpkgs}/nixos/modules/services/databases/clickhouse.nix" ];
   options = {
     services.clickhouse = {
       enable = lib.mkEnableOption "ClickHouse database server";
@@ -188,6 +191,21 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      (
+        let
+          badUsers = lib.filterAttrs (
+            _: x:
+            x.grants != null
+            && (x.access_management != null || x.named_collection_control != null || x.allow_databases != null)
+          ) cfg.users.users;
+        in
+        {
+          assertion = badUsers == { };
+          message = "`grants` can not be used with `access_management` `named_collection_control` and `allow_databases` (users: ${lib.concatStringsSep ", " (lib.attrNames badUsers)})";
+        }
+      )
+    ];
     users.users.clickhouse = {
       name = "clickhouse";
       uid = config.ids.uids.clickhouse;
@@ -245,7 +263,8 @@ in
                 access_management
                 named_collection_control
                 ;
-              allow_databases.database = x.allow_databases;
+              allow_databases = lib.mapNullable (database: { inherit database; }) x.allow_databases;
+              grants = lib.mapNullable (query: { inherit query; }) x.grants;
             }
           ) cfg.users.users;
         };
