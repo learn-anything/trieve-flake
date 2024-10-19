@@ -69,6 +69,11 @@ let
         hash = "sha256-fRKHMcpRxUBpLsoQUEAxxR5fSFXj3WkOaLIH2vTKszI=";
         relative = "server";
       })
+      (fetchpatch2 {
+        url = "https://github.com/devflowinc/trieve/pull/2625.patch";
+        hash = "sha256-aCOfsp3ZH9ZrCglOtVN0lfB5kBx/aKEp8eEphjhQ2xQ=";
+        relative = "server";
+      })
     ] ++ lib.optional defaultReleaseProfile ./release.patch;
   };
 in
@@ -76,11 +81,11 @@ craneLib.buildPackage (
   totalArgs
   // {
     postInstall = ''
-      mkdir -p "$out/share/trieve"
-      cp -R ./migrations/ "$out/share/trieve"
-      cp -R ./ch_migrations/ "$out/share/trieve"
-      mkdir -p "$out/share/trieve/src/"
-      cp -R ./src/public/ "$out/share/trieve/src/"
+      mkdir -p "$out/share/"
+      cp -R ./migrations/ "$out/share/"
+      cp -R ./ch_migrations/ "$out/share/"
+      mkdir -p "$out/share/src/"
+      cp -R ./src/public/ "$out/share/src/"
     '';
   }
 )

@@ -4,7 +4,7 @@ rec {
     owner = "devflowinc";
     repo = "trieve";
     # rev = "v${version}";
-    rev = "23db60f15428805fbec847123c1907fb31f88d57";
-    hash = "sha256-luEgbpfNt4vvcNf3TaLmOei0PwYAA22KAH35mPhx8fg=";
+    rev = "bc302dc0848adbeb492e915a37a35e2d1536a35e";
+    hash = "sha256-SSV+d75SEY6hZuC0fpaD5LBUDeOvAdJgme2yQlOybEY=";
   };
 }
