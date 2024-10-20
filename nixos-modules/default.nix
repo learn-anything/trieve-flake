@@ -125,9 +125,9 @@ in
     services.caddy.virtualHosts =
       let
         frontendCaddyConfig = name: ''
-          root * ${cfg.frontends.package}/share/trieve/${name}
+          root * ${cfg.frontends.package}/share/${name}
           templates
-          try_files {path} {path}/ =404
+          try_files {path} {path}/ /index.html =404
           file_server
         '';
       in

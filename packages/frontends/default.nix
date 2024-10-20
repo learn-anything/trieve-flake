@@ -51,17 +51,17 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     runHook preInstall
-    mkdir -p "$out/share/trieve/"
+    mkdir -p "$out/share/"
     for dist in */dist; do 
       member="$(basename "$(dirname "$dist")")"
-      cp -R "$dist" "$out/share/trieve/$member"
+      cp -R "$dist" "$out/share/$member"
     done
     runHook postInstall
   '';
 
   fixupPhase = ''
     runHook preFixup
-    cd "$out/share/trieve/"
+    cd "$out/share/"
     sed -i -E -e 's/\$\{([A-Z0-9_]+)\}/{{ env "\1" }}/g' */index.html
     runHook postFixup
   '';
